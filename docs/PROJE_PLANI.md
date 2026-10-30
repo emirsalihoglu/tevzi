@@ -1,8 +1,9 @@
 # Adaptif Multimodal Kaynak Zamanlama — Proje Planı
 
+**Proje adı:** Tevzi — https://github.com/emirsalihoglu/tevzi
 **İngilizce başlık:** Adaptive Multimodal Resource Scheduling for Resource Efficiency and Job Completion Time
-**Belge sürümü:** v1.0 — 27 Ekim 2026
-**Durum:** Planlama tamamlandı, Aşama 1'e geçilecek
+**Belge sürümü:** v1.1 — 30 Ekim 2026
+**Durum:** Aşama 0 tamamlandı, Aşama 1'e geçiliyor
 
 ---
 
@@ -172,7 +173,7 @@ Model **tahmin eder**, kararı basit ve şeffaf bir kural verir. Yaklaşımlar a
 - Graf modalitesi (M3) + GNN encoder
 - Ek sezgisel baseline'lar (ör. Tiresias tarzı)
 - Farklı yük senaryoları (yapay olarak yoğunlaştırılmış trace)
-- Trace'in daha yeni sürümleriyle genelleme testi
+- Trace'in daha yeni sürümleriyle genelleme testi (ör. cluster-trace-gpu-v2026)
 
 ### Kapsam dışı
 - Gerçek bir kümede çalıştırma (yalnızca simülasyon)
@@ -185,14 +186,15 @@ Model **tahmin eder**, kararı basit ve şeffaf bir kural verir. Yaklaşımlar a
 
 > Süre kısıtı belirlenmedi; aşamalar sırayla ilerler ve her aşama, çıktıları tamamlanınca kapanır.
 
-### Aşama 0 — Kurulum
-- [ ] Proje klasör yapısı
-- [ ] Python ortamı (sanal ortam, temel kütüphaneler)
-- [ ] Git deposu
+### Aşama 0 — Kurulum ✅ (30.10.2026)
+- [x] Proje klasör yapısı
+- [x] Python ortamı (Colab + Google Drive; yerelde yalnızca kod)
+- [x] Git deposu (GitHub, private)
 - **Çıktı:** Çalışan boş proje iskeleti
 
 ### Aşama 1 — Veri edinme ve keşif
-- [ ] Trace'in indirilmesi
+- [ ] Trace'in Colab üzerinden Drive'a indirilmesi
+- [ ] Ham tabloların Parquet'e dönüştürülmesi (Drive: `Tevzi/data/interim`)
 - [ ] Tabloların ve alanların incelenmesi; Bölüm 3'teki beklentilerin doğrulanması
 - [ ] Temel istatistikler: iş süresi dağılımı, talep vs. gerçek kullanım farkı, geliş örüntüleri
 - [ ] Veri kalitesi: eksik değerler, tutarsız kayıtlar
@@ -248,7 +250,8 @@ Model **tahmin eder**, kararı basit ve şeffaf bir kural verir. Yaklaşımlar a
 | Simülatörün gerçekçi olmaması | Sonuçlar inandırıcı olmaz | Tahminsiz ile doğrulama; varsayımları açıkça yazmak; ceza modeli |
 | Veri sızıntısı (leakage) | Sonuçlar yapay olarak iyi çıkar | Zamansal bölme; girdilerde yalnızca geliş anında bilinen bilgiler |
 | "Multimodal" teriminin sorgulanması | Akademik itiraz | Tablo + zaman serisi = farklı yapı, farklı encoder; hocayla erken görüşme |
-| Hesaplama kaynağı yetersizliği | Eğitim yavaşlar | Küçük modeller; gerekirse veri alt kümesi; ücretsiz bulut GPU seçenekleri |
+| Hesaplama kaynağı yetersizliği | Eğitim yavaşlar | Küçük modeller; gerekirse veri alt kümesi; Colab işlem birimleri (GPU yalnızca eğitimde) |
+| Colab oturumunun kapanması | Ara çıktılar kaybolur | Veri ve sonuçlar Drive'da; düzenli checkpoint; kod GitHub'da |
 
 ---
 
@@ -262,6 +265,10 @@ Model **tahmin eder**, kararı basit ve şeffaf bir kural verir. Yaklaşımlar a
 | 27.10.2026 | Model tahmin eder, karar basit kural tabanlı zamanlayıcıda | Yaklaşımlar arası adil karşılaştırma; yorumlanabilirlik |
 | 27.10.2026 | Baseline seti: tahminsiz, klasik ML, kâhin + DL basamakları | Alt sınır, "neden DL" sorusu ve üst sınır |
 | 27.10.2026 | Graf modalitesi opsiyonel | Kapsam kontrolü |
+| 30.10.2026 | Proje adı: Tevzi | — |
+| 30.10.2026 | Hesaplama Colab'da, veri ve sonuçlar Google Drive'da; kod yerelde yazılıp GitHub üzerinden Colab'a çekiliyor | Veri boyutu ve eğitim yükü yerel bilgisayar için ağır |
+| 30.10.2026 | Depo private; proje sonunda public + lisans | Yayımlanmamış araştırma |
+| 30.10.2026 | Kod ve commit dili İngilizce, plan ve rapor Türkçe | Açık kaynak hedefi |
 
 ---
 
@@ -273,4 +280,4 @@ Model **tahmin eder**, kararı basit ve şeffaf bir kural verir. Yaklaşımlar a
 - [ ] Gating mi attention mı (Aşama 3)
 - [ ] Ceza modelinin kesin biçimi (Aşama 4)
 - [ ] Simüle edilecek küme boyutu (Aşama 4)
-- [ ] Rapor dili ve formatı
+- [ ] Rapor formatı (dil: Türkçe)
