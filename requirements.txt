@@ -1,0 +1,13 @@
+numpy
+pandas
+pyarrow
+scipy
+scikit-learn
+lightgbm
+matplotlib
+seaborn
+tqdm
+pyyaml
+pytest
+# PyTorch is preinstalled on Colab; install locally only if needed
+# (https://pytorch.org/get-started/locally/).
