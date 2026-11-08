@@ -230,11 +230,16 @@ def _requested_type(data_dir: Path, job_names: pd.Series) -> pd.Series:
 
 
 def _actual_pool(data_dir: Path, job_names: pd.Series) -> pd.Series:
+    """GPU pool a job ran in: the most frequent GPU machine type among its
+    instances (CPU machines, e.g. for parameter servers, are ignored)."""
     spec = load_table("machine_spec", data_dir, columns=["machine", "gpu_type"])
     inst = load_table("instance", data_dir, columns=["job_name", "machine"])
-    inst = inst[inst["job_name"].isin(job_names)].dropna(subset=["machine"]).drop_duplicates("job_name")
-    inst = inst.merge(spec, on="machine", how="left")
-    return inst.set_index("job_name")["gpu_type"].astype(str)
+    inst = inst[inst["job_name"].isin(job_names)].dropna(subset=["machine"])
+    inst = inst.merge(spec, on="machine", how="inner")
+    inst = inst[inst["gpu_type"].isin(GPU_POOLS)]
+    counts = inst.groupby(["job_name", "gpu_type"], sort=False).size().rename("n").reset_index()
+    counts = counts.sort_values(["job_name", "n", "gpu_type"], ascending=[True, False, True], kind="mergesort")
+    return counts.drop_duplicates("job_name").set_index("job_name")["gpu_type"].astype(str)
 
 
 def capacities(data_dir: Path) -> dict:
