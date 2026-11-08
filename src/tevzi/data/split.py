@@ -1,7 +1,7 @@
 """Temporal split by submission time, purging and the burst flag.
 
 Days are counted from the first submission in the trace (T0). Periods:
-warm-up [0, 7), train [7, 45), validation [45, 52), test [52, end).
+warm-up [0, 19), train [19, 45), validation [45, 52), test [52, end).
 
 Purging: a train or validation job is purged if it ends at or after the end
 of its period, so no label in a period depends on time after that period.
@@ -20,8 +20,8 @@ T0 = 494_319          # first submission in the trace (s)
 DAY = 86_400
 
 PERIODS = {           # name: (start_day, end_day)
-    "warmup": (0.0, 7.0),
-    "train": (7.0, 45.0),
+    "warmup": (0.0, 19.0),   # sensor records start on day ~18
+    "train": (19.0, 45.0),
     "val": (45.0, 52.0),
     "test": (52.0, np.inf),
 }
