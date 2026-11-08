@@ -152,7 +152,10 @@ def build_features(jobs: pd.DataFrame, targets: pd.DataFrame, data_dir: Path) ->
     targets.build_targets (model set, main-task columns included).
     """
     data_dir = Path(data_dir)
-    tags = load_table("group_tag", data_dir, columns=["job_name", "group", "workload"])
+    # group_tag is keyed by the job-level inst_id (1:1 with job_name)
+    tags = load_table("group_tag", data_dir, columns=["inst_id", "group", "workload"])
+    ids = load_table("job", data_dir, columns=["job_name", "inst_id"])
+    tags = ids.merge(tags.drop_duplicates("inst_id"), on="inst_id", how="inner").drop(columns="inst_id")
     base = jobs[["job_name", "user", "submit_time", "end_time", "first_start",
                  "n_tasks", "req_gpu_total", "req_cpu_total", "req_mem_total",
                  "m2_arrival", "m2_occupancy"]].merge(tags, on="job_name", how="left")
